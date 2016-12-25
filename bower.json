@@ -1,8 +1,9 @@
 {
-  "name": "text-encoding",
+  "name": "text-encoding-lite",
   "version": "0.6.2",
-  "homepage": "https://github.com/inexorabletash/text-encoding",
+  "homepage": "https://github.com/zant95/text-encoding-lite",
   "authors": [
+    "Héctor Molinero <hector@molinero.xyz>",
     "Joshua Bell <inexorabletash@gmail.com>",
     "Rick Eyre <rick.eyre@outlook.com>",
     "Eugen Podaru <eugen.podaru@live.com>",
@@ -14,7 +15,7 @@
     "Zack Weinberg <zackw@panix.com>"
   ],
   "description": "Polyfill for the Encoding Living Standard's API",
-  "main": [ "lib/encoding.js", "lib/encoding-indexes.js" ],
+  "main": [ "lib/encoding.js" ],
   "keywords": [
     "decoding",
     "encoding",

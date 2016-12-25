@@ -71,24 +71,11 @@ function genblock(from, len, skip) {
   return block.join('');
 }
 
-function encode_utf16le(s) { return encode_utf16(s, true); }
-function encode_utf16be(s) { return encode_utf16(s, false); }
-function encode_utf16(s, le) {
-  var a = new Uint8Array(s.length * 2), view = new DataView(a.buffer);
-  s.split('').forEach(function(c, i) {
-    view.setUint16(i * 2, c.charCodeAt(0), le);
-  });
-  return a;
-}
-
 function test_utf_roundtrip () {
   var MIN_CODEPOINT = 0;
   var MAX_CODEPOINT = 0x10FFFF;
   var BLOCK_SIZE = 0x1000;
   var SKIP_SIZE = 31;
-
-  var TD_U16LE = new TextDecoder("UTF-16LE");
-  var TD_U16BE = new TextDecoder("UTF-16BE");
 
   var TE_U8    = new TextEncoder();
   var TD_U8    = new TextDecoder("UTF-8");
@@ -97,17 +84,9 @@ function test_utf_roundtrip () {
     var block_tag = cpname(i) + " - " + cpname(i + BLOCK_SIZE - 1);
     var block = genblock(i, BLOCK_SIZE, SKIP_SIZE);
 
-    // test UTF-16LE, UTF-16BE, and UTF-8 encodings against themselves
-    var encoded = encode_utf16le(block);
-    var decoded = TD_U16LE.decode(encoded);
-    assert_string_equals(block, decoded, "UTF-16LE round trip " + block_tag);
-
-    encoded = encode_utf16be(block);
-    decoded = TD_U16BE.decode(encoded);
-    assert_string_equals(block, decoded, "UTF-16BE round trip " + block_tag);
-
-    encoded = TE_U8.encode(block);
-    decoded = TD_U8.decode(encoded);
+    // test UTF-8 encoding against themselves
+    var encoded = TE_U8.encode(block);
+    var decoded = TD_U8.decode(encoded);
     assert_string_equals(block, decoded, "UTF-8 round trip " + block_tag);
 
     // test TextEncoder(UTF-8) against the older idiom
@@ -126,13 +105,7 @@ function test_utf_samples () {
   var sample = "z\xA2\u6C34\uD834\uDD1E\uDBFF\uDFFD";
   var cases = [
     { encoding: "utf-8",
-      expected: [0x7A, 0xC2, 0xA2, 0xE6, 0xB0, 0xB4, 0xF0, 0x9D, 0x84, 0x9E, 0xF4, 0x8F, 0xBF, 0xBD] },
-    { encoding: "utf-16le",
-      expected: [0x7A, 0x00, 0xA2, 0x00, 0x34, 0x6C, 0x34, 0xD8, 0x1E, 0xDD, 0xFF, 0xDB, 0xFD, 0xDF] },
-    { encoding: "utf-16",
-      expected: [0x7A, 0x00, 0xA2, 0x00, 0x34, 0x6C, 0x34, 0xD8, 0x1E, 0xDD, 0xFF, 0xDB, 0xFD, 0xDF] },
-    { encoding: "utf-16be",
-      expected: [0x00, 0x7A, 0x00, 0xA2, 0x6C, 0x34, 0xD8, 0x34, 0xDD, 0x1E, 0xDB, 0xFF, 0xDF, 0xFD] }
+      expected: [0x7A, 0xC2, 0xA2, 0xE6, 0xB0, 0xB4, 0xF0, 0x9D, 0x84, 0x9E, 0xF4, 0x8F, 0xBF, 0xBD] }
   ];
 
   cases.forEach(
@@ -145,8 +118,8 @@ function test_utf_samples () {
 }
 
 test(test_utf_samples,
-     "UTF-8, UTF-16LE, UTF-16BE - Encode/Decode - reference sample");
+     "UTF-8 - Encode/Decode - reference sample");
 
 test(test_utf_roundtrip,
-     "UTF-8, UTF-16LE, UTF-16BE - Encode/Decode - full roundtrip and "+
+     "UTF-8 - Encode/Decode - full roundtrip and "+
      "agreement with encode/decodeURIComponent");

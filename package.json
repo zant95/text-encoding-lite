@@ -1,7 +1,8 @@
 {
-  "name": "text-encoding",
-  "author": "Joshua Bell <inexorabletash@gmail.com>",
+  "name": "text-encoding-lite",
+  "author": "Héctor Molinero <hector@molinero.xyz>",
   "contributors": [
+    "Héctor Molinero <hector@molinero.xyz>",
     "Joshua Bell <inexorabletash@gmail.com>",
     "Rick Eyre <rick.eyre@outlook.com>",
     "Eugen Podaru <eugen.podaru@live.com>",
@@ -17,12 +18,11 @@
   "main": "index.js",
   "files": [
     "index.js",
-    "lib/encoding.js",
-    "lib/encoding-indexes.js"
+    "lib/encoding.js"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/inexorabletash/text-encoding.git"
+    "url": "https://github.com/zant95/text-encoding-lite.git"
   },
   "keywords": [
     "encoding",
@@ -30,8 +30,8 @@
     "living standard"
   ],
   "bugs": {
-    "url": "https://github.com/inexorabletash/text-encoding/issues"
+    "url": "https://github.com/zant95/text-encoding-lite/issues"
   },
-  "homepage": "https://github.com/inexorabletash/text-encoding",
+  "homepage": "https://github.com/zant95/text-encoding-lite",
   "license": "Unlicense"
 }
